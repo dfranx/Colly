@@ -88,9 +88,9 @@ namespace cl
 
 			bounds.Y += yInc;
 			sY = std::max(0, (int)(bounds.Y / m_cellH) - 1);
-			eY = std::min(m_h - 1, sY + 1 + (int)((bounds.Y + bounds.Height) / m_cellH));
+			eY = std::min(m_h - 1, (int)((bounds.Y + bounds.Height) / m_cellH) + 1);
 			sX = std::max(0, (int)(bounds.X / m_cellW) - 1);
-			eX = std::min(m_w - 1, sX + 1 + (int)((bounds.X + bounds.Width) / m_cellW));
+			eX = std::min(m_w - 1, (int)((bounds.X + bounds.Width) / m_cellW) + 1);
 
 			for (int y = sY; y <= eY; y++) {
 				for (int x = sX; x <= eX; x++) {
