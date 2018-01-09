@@ -21,7 +21,7 @@ namespace cl
 		void RemoveObject(int id);
 
 		Point Check(int steps, Rect body, Point goal);
-		Point Check(int steps, Rect body, Point goal, std::function<void(Body&)> func);
+		Point Check(int steps, Rect body, Point goal, std::function<void(Body&, World*)> func);
 
 	private:
 		std::vector<Body> m_bodies;

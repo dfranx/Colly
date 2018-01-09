@@ -37,7 +37,7 @@ namespace cl
 	{
 		return Check(steps, bounds, goal, nullptr);
 	}
-	Point GridWorld::Check(int steps, Rect bounds, Point goal, std::function<void(int)> func)
+	Point GridWorld::Check(int steps, Rect bounds, Point goal, std::function<void(int,int,int,bool,GridWorld*)> func)
 	{
 		Rect intersect;
 
@@ -64,7 +64,7 @@ namespace cl
 
 					if (cell.Intersects(bounds, intersect)) {
 						if (func != nullptr)
-							func(id);
+							func(id, x, y, true, this);
 
 						if (type != CollisionType::Solid)
 							continue;
@@ -103,7 +103,7 @@ namespace cl
 
 					if (cell.Intersects(bounds, intersect)) {
 						if (func != nullptr)
-							func(id);
+							func(id, x, y, false, this);
 
 						if (type == CollisionType::Cross)
 							continue;

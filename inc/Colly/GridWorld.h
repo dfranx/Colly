@@ -18,7 +18,7 @@ namespace cl
 		int GetObject(int x, int y);
 
 		Point Check(int steps, Rect body, Point goal);
-		Point Check(int steps, Rect body, Point goal, std::function<void(int)> func);
+		Point Check(int steps, Rect body, Point goal, std::function<void(int, int, int, bool, GridWorld*)> func);
 
 		std::function<CollisionType(int)> GetCollisionType; // filter which tells us if given id represents a solid/whatever cell
 	private:

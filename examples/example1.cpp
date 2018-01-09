@@ -46,7 +46,7 @@ int main()
 
 		/// COLLISION CHECK
 		sf::FloatRect pBounds = player.getGlobalBounds();
-		cl::Point res = world.Check(1, { pBounds.left, pBounds.top, pBounds.width, pBounds.height }, { goal.x, goal.y }, [](cl::Body& b) {
+		cl::Point res = world.Check(1, { pBounds.left, pBounds.top, pBounds.width, pBounds.height }, { goal.x, goal.y }, [](cl::Body& b, cl::World* world) {
 			printf("Collided with: %d\n", b.Id);
 		});
 		player.setPosition(res.X, res.Y);

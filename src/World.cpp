@@ -37,7 +37,7 @@ namespace cl
 	{
 		return Check(steps, bounds, goal, nullptr);
 	}
-	Point World::Check(int steps, Rect bounds, Point goal, std::function<void(Body&)> func)
+	Point World::Check(int steps, Rect bounds, Point goal, std::function<void(Body&, World*)> func)
 	{
 		Rect intersect;
 
@@ -52,7 +52,7 @@ namespace cl
 
 				if (b.Bounds.Intersects(bounds, intersect)) {
 					if (func != nullptr)
-						func(b);
+						func(b, this);
 
 					if (b.Type != CollisionType::Solid)
 						continue;
@@ -78,7 +78,7 @@ namespace cl
 
 				if (b.Bounds.Intersects(bounds, intersect)) {
 					if (func != nullptr)
-						func(b);
+						func(b, this);
 					
 					if (b.Type != CollisionType::Solid)
 						continue;

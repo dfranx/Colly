@@ -59,7 +59,7 @@ But using more steps we could prevent that:
 
 **Goal** is where our player wants to move
 
-**Func** is a function which will be called when collision occurs. You dont have to specify this argument.
+**Func** is a function which will be called when collision occurs. You dont have to use this argument.
 
 ```c++
 Point res = world.Check(1, player.Bounds(), player.NextPosition());
