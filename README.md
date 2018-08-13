@@ -1,18 +1,25 @@
 # Colly
-A simple library for handling simple collision.
+Colly is a simple to use and optimized library for checking and handling AABB collision.
+It doesnt have any dependencies and it doesnt need to be precompiled into 
+a .dll/.lib (or .a and similar extensions). You just need
+to drag and drop the header and the source file into your project and start
+using it. You can easily modify it and add new CollisionTypes.
 
-![](https://i.imgur.com/IHHGtOf.png)
+**cl\::World** uses GridTree so that the collision is checked with only nearby
+elements. It means you can have a pretty large number of elements.
+
+**cl\::GridWorld** can be used for tile based levels.
+
+![](https://i.imgur.com/Df4d0fU.gif)
 
 ## How to use
 ### Start
-First, include Colly main header:
-```c++
-#include <Colly.h>
-```
+Download the header and source file and drop it into your project.
+Then include the header where you need to use it.
 
 ### World
 #### Initialize
-Define the world:
+Define the world which will contain all elements
 ```c++
 cl::World world;
 ```
@@ -20,21 +27,34 @@ cl::World world;
 #### Adding an object to the World
 To add an object, we have to call `AddObject` function:
 ```c++
-world.AddObject(id, bounds, colType);
+world.AddObject(id, bounds, colType, userData);
 ```
 
-**ID** argument is user data. It can be any number
+**ID** is additional user data. It can be any number and 
+the cl::World doesnt use it anywhere. It is added for user
+purposes so that you can easily identify the object.
 
-**Bounds** contains bounds of our object
+**Bounds** contains bounds of our object - the area that is
+taken by the object.
 
 **colType** is an enum type. It can either be:
    * None **-** any collision checks will be skipped.
    * Solid **-** player cant go through object
    * Cross **-** used with pick ups (for example: coins)
 
+**userData** is also used for user data. It can point to any
+class or whatever data you want it to point to. You can have multiple
+data types here and see which one is used by checking the ID.
+
 Example which adds a solid object on position (10,10) with 100x100 size
 ```c++
 world.AddObject(0, Rect(10,10,100,100), cl::CollisionType::Solid);
+```
+
+**IMPORTANT**: After adding the object to the world
+you must build quad tree
+```c++
+world.UpdateQuadTree();
 ```
 
 #### Handle collision
@@ -43,7 +63,7 @@ To handle collision we use:
 world.Check(steps, bounds, goal, func);
 ```
 
-This function returns where our player ended up.
+This function returns the position of our player after the collision has been handled.
 
 **Steps** argument is used when player is moving with a higher speed. More steps means more precision.
 
@@ -66,7 +86,7 @@ Point res = world.Check(1, player.Bounds(), player.NextPosition());
 ```
 
 ### GridWorld
-GridWorld is more optimized than World, so if we are working with a tilemap, it is best to use GridWorld:
+GridWorld is better for tile based worlds but it works almost exactly like the cl::World.
 ```c++
 cl::GridWorld world;
 ```
@@ -76,7 +96,7 @@ GridWorld requires additional function call to be initialized. Syntax:
 world.Create(map_width, map_height, cell_width, cell_height);
 ```
 
-For example, to create a 16x16 grid with 64x64 cells, it would look like this:
+For example, to create a 16x16 grid map with 64x64 cells, it would look like this:
 ```c++
 world.Create(16, 16, 64, 64);
 ```
@@ -98,7 +118,7 @@ But, as you can notice, we never specified which cell is solid and which
 cell is not solid. To do this, we have to specify a filter.
 
 After calling `Create` function it would be best to define our 'filter'. 
-It is just a simple function which specifies `CollisionType` for a given ID.
+It is just a simple function which specifies `CollisionType` for a cell ID.
 
 In the following example, each cell with ID 15 or higher will be a solid cell.
 ```c++
@@ -109,8 +129,4 @@ world.GetCollisionType = [](int id) -> cl::CollisionType {
 } 
 ```
 
-The default filter specifies that all cells with `ID >= 1` are solid cells.
-
-## Building
-This library requires no dependencies. But if you are going to build examples,
-you need to link SFML.
+The **default filter** specifies that all cells with `ID >= 1` are solid cells.
