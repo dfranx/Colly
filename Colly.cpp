@@ -316,7 +316,7 @@ namespace cl
 		checkRegion.Width = std::min((int)(checkRegion.Width + bounds.Width) / m_cellW, m_w - 1);
 		checkRegion.Height = std::min((int)(checkRegion.Height + bounds.Height) / m_cellH, m_h - 1);
 
-		for (int i = steps - 1; i >= 0; i--) {
+		for (int i = 0; i < steps; i++) {
 			// increment along x axis and check for collision
 			bounds.X += xInc;
 			for (int y = checkRegion.Y; y <= checkRegion.Height; y++) {
