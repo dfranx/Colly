@@ -131,7 +131,7 @@ namespace cl
 		void UpdateQuadTree();
 
 		// get and remove objects with a given id
-		Body& GetObject(int id);
+		std::vector<Body*> GetObjects(int id);
 		void RemoveObjects(int id);
 
 		// Check for the collision and calculate the aftermath position. You should use

@@ -169,11 +169,13 @@ namespace cl
 		m_bodies.clear();
 		UpdateQuadTree();
 	}
-	Body& World::GetObject(int id)
+	std::vector<Body*> World::GetObjects(int id)
 	{
+		std::vector<Body*> ret;
 		for (int i = 0; i < m_bodies.size(); i++)
 			if (m_bodies[i].Id == id)
-				return m_bodies[i];
+				ret.push_back(&m_bodies[i]);
+		return ret;
 	}
 	void World::RemoveObjects(int id)
 	{
@@ -319,8 +321,8 @@ namespace cl
 		for (int i = 0; i < steps; i++) {
 			// increment along x axis and check for collision
 			bounds.X += xInc;
-			for (int y = checkRegion.Y; y <= checkRegion.Height; y++) {
-				for (int x = checkRegion.X; x <= checkRegion.Width; x++) {
+			for (int y = (int)checkRegion.Y; y <= (int)checkRegion.Height; y++) {
+				for (int x = (int)checkRegion.X; x <= (int)checkRegion.Width; x++) {
 					int id = m_grid[y][x];
 					CollisionType type = GetCollisionType(id); // fetch the collision type through the filter GetCollisionType
 
@@ -355,8 +357,8 @@ namespace cl
 
 			// increment along y axis and check for collision - repeat everything for Y axis
 			bounds.Y += yInc;
-			for (int y = checkRegion.Y; y <= checkRegion.Height; y++) {
-				for (int x = checkRegion.X; x <= checkRegion.Width; x++) {
+			for (int y = (int)checkRegion.Y; y <= (int)checkRegion.Height; y++) {
+				for (int x = (int)checkRegion.X; x <= (int)checkRegion.Width; x++) {
 					int id = m_grid[y][x];
 					CollisionType type = GetCollisionType(id);
 
