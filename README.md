@@ -1,13 +1,13 @@
 # Colly
-Colly is a simple to use and optimized library for checking and handling AABB collision. 
+Colly is a simple to use and optimized library for detecting and handling AABB collision. 
 It doesnt have any dependencies and it doesnt need to be precompiled into 
 a .dll/.lib (or .a and similar extensions). You just need
 to drag and drop the header and the source file into your project and start
-using it. You can easily modify it and add new CollisionTypes.
+using it. You can easily modify this library and add new and custom CollisionTypes.
 
 **cl\::World** is for storing non-tile based objects. It uses
 GridTree, which means that the collision is checked only with
-nearby objects and that it is pretty optimized.
+nearby objects - it should be pretty optimized.
 
 **cl\::GridWorld** should be used for tile-based worlds.
 
@@ -26,7 +26,7 @@ cl::World world;
 ```
 
 #### Adding an object to the World
-To add an object, call `AddObject` function:
+To add an object to the world, call `AddObject` function:
 ```c++
 world.AddObject(id, bounds, colType, userData);
 ```
@@ -41,7 +41,7 @@ the cl::World doesnt use it anywhere. This argument is only used so that you can
    * Solid **-** player cant go through object
    * Cross **-** used with pick ups (for example: coins)
 
-**userData** is also used for storing user data. It can point to
+**userData** is used for storing user data. It can point to
 any data you want it to point to. You can have multiple data types
 and see which one is being used for this object by checking the ID.
 
@@ -50,8 +50,8 @@ Example in which we add a solid object on position (10,10) with size (100,100):
 world.AddObject(0, Rect(10,10,100,100), cl::CollisionType::Solid);
 ```
 
-**IMPORTANT**: After adding the object to the world
-you must build the quadtree:
+**IMPORTANT**: After adding all the objects to the world/changing anything in the world
+you must build the quadtree to apply the changes:
 ```c++
 world.UpdateQuadTree();
 ```
@@ -74,18 +74,18 @@ But when using more steps we can prevent that:
 
 ![](https://i.imgur.com/SkDMkst.png)
 
-**Bounds** contains our players bounds (X, Y, Width, Height)
+**Bounds** contains our player's bounds (X, Y, Width, Height)
 
 **Goal** is (X,Y) coordinate where our player wants to move
 
-**Func** is a function which will be called when and if the collision occurs. You dont have to use this argument.
+**Func** is a function which will be called when and if the collision occurs. This argument is optional.
 
 ```c++
 Point res = world.Check(1, player.Bounds(), player.NextPosition());
 ```
 
 ### GridWorld
-GridWorld is better for tile-based worlds but it works almost exactly like the cl::World.
+GridWorld is a better option for tile-based worlds but it works almost exactly like the cl::World.
 ```c++
 cl::GridWorld world;
 ```
